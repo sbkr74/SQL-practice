@@ -28,3 +28,27 @@ ELSE
     -- Then commit the transaction
     COMMIT;
 END IF;
+--##################################################################################################################--
+START TRANSACTION;
+INSERT INTO practical.Emp (EmpID, EmpName, DeptID, Salary, Bonus, Gender, City, DOJ)
+VALUES
+(1, 'John Doe', 101, 50000, 5000, 'Male', 'New York', '2022-01-15');
+INSERT INTO practical.Emp (EmpID, EmpName, DeptID, Salary, Bonus, Gender, City, DOJ)
+VALUES
+(5, 'Sophia Nguyen', 101, 51000, 5800, 'Female', 'Boston', '2021-10-20');
+INSERT INTO practical.Emp (EmpID, EmpName, DeptID, Salary, Bonus, Gender, City, DOJ)
+VALUES
+(2, 'Emily Brown', 101, 52000, 5500, 'Female', 'Houston', '2022-03-05');
+
+SAVEPOINT checkpoint1;
+
+DELETE FROM practical.Emp WHERE EmpID = 5;
+
+SAVEPOINT checkpoint2;
+
+update practical.Emp set Salary = 50000 where EmpID = 2;
+
+ROLLBACK TO SAVEPOINT checkpoint1;
+
+COMMIT;
+
