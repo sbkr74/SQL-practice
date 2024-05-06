@@ -1,0 +1,1 @@
+RENAME TABLE practical.Employee TO practical.Emp;
