@@ -1,0 +1,1 @@
+select * from practical.Emp where DeptId = 101;
