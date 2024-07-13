@@ -1,0 +1,2 @@
+-- Write an SQL query to fetch duplicate records having matching data in some fields of a table(TITLE).
+SELECT WORKER_TITLE, AFFECTED_FROM FROM TITLE GROUP BY WORKER_TITLE,AFFECTED_FROM HAVING COUNT(*)>1;
