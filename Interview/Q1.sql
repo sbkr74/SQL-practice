@@ -9,3 +9,7 @@ SELECT W1.Salary FROM practical.worker W1 WHERE 2 = (SELECT COUNT(DISTINCT(W2.Sa
 
 -- using Windows function
 SELECT Salary FROM (SELECT Salary,RANK() OVER (ORDER BY Salary DESC) AS max_sal FROM practical.worker) AS RNK_SAL WHERE max_sal=2;
+
+-- using CTE
+WITH CTE AS(SELECT SALARY,ROW_NUMBER() OVER(ORDER BY SALARY DESC) AS ROWNUM FROM practical.worker ) 
+SELECT SALARY FROM CTE WHERE ROWNUM =2;
