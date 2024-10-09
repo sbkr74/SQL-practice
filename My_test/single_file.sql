@@ -14,3 +14,11 @@ Write a SQL query to find the second highest sale_amount from the sales table.
 SELECT MAX(sale_amount) AS second_highest
 FROM sales
 where sale_amount< (SELECT MAX(sale_amount) FROM sales);
+
+-- USING LIMIT
+
+SELECT sale_amount 
+FROM sales
+ORDER BY sale_amount DESC
+LIMIT 1 OFFSET 1;
+
