@@ -31,5 +31,15 @@ Assume there is a products table with columns product_id and product_name.
 */
 
 SELECT p.product_id,p.product_name
-FROM product p
+FROM products p
 WHERE product_id NOT IN (SELECT DISTINCT product_id FROM sales);
+
+/*
+(Question 4):
+Write a SQL query to find the total number of sales made for each product. Return the product_id, product_name, and the total count of sales.
+*/
+
+SELECT p.product_id,p.product_name, COUNT(s.sale_amount) 
+FROM products p 
+LEFT JOIN sales s ON p.product_id = s.product_id
+GROUP BY p.product_id,p.product_name;   
