@@ -43,3 +43,13 @@ SELECT p.product_id,p.product_name, COUNT(s.sale_amount)
 FROM products p 
 LEFT JOIN sales s ON p.product_id = s.product_id
 GROUP BY p.product_id,p.product_name;   
+
+/*
+Question 5:
+Write a SQL query to retrieve the product names that have sales greater than $200. Return only the distinct product names.
+*/
+
+SELECT DISTINCT p.product_name,s.sale_amount 
+FROM products p
+INNER JOIN sales s ON p.product_id=s.product_id
+WHERE s.sale_amount > 200;
