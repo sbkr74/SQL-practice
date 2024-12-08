@@ -53,3 +53,9 @@ SELECT DISTINCT p.product_name,s.sale_amount
 FROM products p
 INNER JOIN sales s ON p.product_id=s.product_id
 WHERE s.sale_amount > 200;
+
+/*
+Question 6:
+Write a SQL query to find the total sales amount for each product category. 
+Assume there is a categories table with the following columns: category_id, category_name, and product_id (which links to the products table).
+*/
