@@ -94,3 +94,9 @@ Write a SQL query to find all sales made in the month of October 2024. Return th
 */
 
 -- FOR NOW PRACTICING TO HANDLE DATE-TIME SCENARIO...
+-- USING LIKE OPERATOR
+SELECT p.product_id,s.sale_amount,s.sale_date
+FROM products p
+INNER JOIN sales s ON p.product_id = s.product_id
+WHERE s.sale_date 
+LIKE '2024-10-%';
