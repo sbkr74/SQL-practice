@@ -60,8 +60,18 @@ Write a SQL query to find the total sales amount for each product category.
 Assume there is a categories table with the following columns: category_id, category_name, and product_id (which links to the products table).
 */
 
-SELECT SUM(s.sale_amount),c.CATEGORY_NAME 
+SELECT SUM(s.sale_amount) AS total,c.CATEGORY_NAME 
 FROM sales s 
 INNER JOIN products p ON p.product_id = s.product_id
 INNER JOIN categories c ON c.product_id = s.product_id
-GROUP BY c.CATEGORY_NAME
+GROUP BY c.CATEGORY_NAME;
+
+/*
+Question 7:
+Write a SQL query to find the average sale amount for each product. Return the product_id, product_name, and the average sale amount.
+*/
+
+SELCT p.product_id,p.product_name,AVG(s.sale_amount) AS avg
+FROM products p
+INNER JOIN sales s
+GROUP BY p.product_id,p.product_name;
