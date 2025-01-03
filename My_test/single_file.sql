@@ -105,3 +105,13 @@ SELECT p.product_id,s.sale_amount,s.sale_date
 FROM products p
 INNER JOIN sales s ON p.product_id = s.product_id
 WHERE MONTH(s.sale_date ) = 10 AND YEAR(s.sale_date);
+
+/*
+Question 10:
+Write a SQL query to find the product(s) with the highest sales amount. Return the product_id, product_name, and total sales amount.
+*/
+
+SELECT p.product_id,p.product_name,MAX(s.sale_amount) AS max 
+FROM products p
+INNER JOIN sales s ON p.product_id = s.product_id
+GROUP BY p.product_id,p.product_name;
