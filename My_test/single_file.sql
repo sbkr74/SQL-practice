@@ -59,3 +59,9 @@ Question 6:
 Write a SQL query to find the total sales amount for each product category. 
 Assume there is a categories table with the following columns: category_id, category_name, and product_id (which links to the products table).
 */
+
+SELECT SUM(s.sale_amount),c.CATEGORY_NAME 
+FROM sales s 
+INNER JOIN products p ON p.product_id = s.product_id
+INNER JOIN categories c ON c.product_id = s.product_id
+GROUP BY c.CATEGORY_NAME
