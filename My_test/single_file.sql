@@ -71,7 +71,19 @@ Question 7:
 Write a SQL query to find the average sale amount for each product. Return the product_id, product_name, and the average sale amount.
 */
 
-SELCT p.product_id,p.product_name,AVG(s.sale_amount) AS avg
+SELECT p.product_id,p.product_name,AVG(s.sale_amount) AS avg
 FROM products p
-INNER JOIN sales s
+INNER JOIN sales s ON p.product_id = s.product_id
 GROUP BY p.product_id,p.product_name;
+
+/*
+Question 8:
+Write a SQL query to retrieve the top 3 products by total sales amount. Return the product_id, product_name, and total sales amount.
+*/
+-- Using Limit
+SELECT p.product_id,p.product_name,SUM(s.sale_amount) AS total
+FROM products p
+INNER JOIN sales s ON p.product_id = s.product_id
+GROUP BY p.product_id,p.product_name
+ORDER BY SUM(s.sale_amount)
+LIMIT 3;
