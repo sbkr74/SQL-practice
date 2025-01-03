@@ -98,5 +98,10 @@ Write a SQL query to find all sales made in the month of October 2024. Return th
 SELECT p.product_id,s.sale_amount,s.sale_date
 FROM products p
 INNER JOIN sales s ON p.product_id = s.product_id
-WHERE s.sale_date 
-LIKE '2024-10-%';
+WHERE s.sale_date LIKE '2024-10-%';
+
+-- USING DATE FUNCTIONS
+SELECT p.product_id,s.sale_amount,s.sale_date
+FROM products p
+INNER JOIN sales s ON p.product_id = s.product_id
+WHERE MONTH(s.sale_date ) = 10 AND YEAR(s.sale_date);
