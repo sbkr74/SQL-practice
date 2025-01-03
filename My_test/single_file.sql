@@ -85,5 +85,12 @@ SELECT p.product_id,p.product_name,SUM(s.sale_amount) AS total
 FROM products p
 INNER JOIN sales s ON p.product_id = s.product_id
 GROUP BY p.product_id,p.product_name
-ORDER BY SUM(s.sale_amount)
+ORDER BY SUM(s.sale_amount) DESC
 LIMIT 3;
+
+/*
+Question 9:
+Write a SQL query to find all sales made in the month of October 2024. Return the product_id, sale_amount, and sale_date.
+*/
+
+-- FOR NOW PRACTICING TO HANDLE DATE-TIME SCENARIO...
