@@ -30,7 +30,11 @@
     - Normal Queries (1-10)
 
 - Functions
-    in()
-    length()
-    cast()
-    convert()
+    - in()
+    - length()
+    - cast()
+    - convert()
+
+
+- not supported functions(MySQL)
+    - to_char()
