@@ -10,8 +10,13 @@ SELECT ENAME FROM EMP WHERE ENAME LIKE 'S___H';
 SELECT ENAME FROM EMP WHERE LENGTH(ENAME) = 5 AND ENAME LIKE 'S%H';
 -- 24. List the emps who joined in January.
 SELECT * FROM EMP WHERE MONTH(HIREDATE) = 01;
+/*another approach (NOT SUPPORTED BY MySQL)*/
+SELECT * FROM EMP WHERE to_char (hiredate,'mon') = 'JAN';
 -- 25. List the emps who joined in the month of which second character is ‘a’.
-
+/*another approach (NOT SUPPORTED BY MySQL)*/
+SELECT * FROM EMP WHERE to_char (hiredate,'mon') LIKE '_A_';
+/*another approach (NOT SUPPORTED BY MySQL)*/
+SELECT * FROM EMP WHERE to_char (hiredate,'mon') LIKE '_A%';
 -- 26. List the emps whose Sal is four digit number ending with Zero.
 SELECT * FROM EMP WHERE SAL LIKE '___0';
 /*      or          */
@@ -20,6 +25,8 @@ SELECT * FROM EMP WHERE LENGTH(SAL) = 4 AND SAL LIKE '%0';
 SELECT * FROM EMP WHERE ENAME LIKE '%LL%';
 -- 28. List the emps those who joined in 80's.
 SELECT * FROM EMP WHERE YEAR(HIREDATE) = 1980;
+/*another approach (NOT SUPPORTED BY MySQL)*/
+SELECT * FROM EMP WHERE to_char (hiredate,'yy') LIKE '80%';
 -- 29. List the emps who does not belong to Deptno 20.
 SELECT * FROM EMP WHERE DEPTNO != 20;
 /*      or          */
