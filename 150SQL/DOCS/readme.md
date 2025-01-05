@@ -28,3 +28,7 @@
 
 - Topics
     - Normal Queries (1-10)
+
+- Functions
+    in()
+    length()
