@@ -32,3 +32,5 @@
 - Functions
     in()
     length()
+    cast()
+    convert()
