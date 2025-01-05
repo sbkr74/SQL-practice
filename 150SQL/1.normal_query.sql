@@ -60,6 +60,8 @@ SELECT * FROM EMP WHERE YEAR(HIREDATE) = 1981;
 SELECT * FROM EMP WHERE HIREDATE > ('80-12-31') AND HIREDATE < ('82-01-01');
 /*      or      */
 SELECT * FROM EMP WHERE HIREDATE BETWEEN ('80-12-31') AND ('82-01-01');
+/*another approach (NOT SUPPORTED BY MySQL)*/
+select * from emp where to_char(hiredate,'mon-yyyy') ='aug-1980';  -- MM -> months in digit 
 -- 18. List the emps who are joined in the month of Aug 1980.
 SELECT * FROM EMP WHERE YEAR(HIREDATE) = 1980 AND MONTH(HIREDATE) = 08;
 /*      or      */
@@ -69,3 +71,4 @@ SELECT * FROM EMP WHERE HIREDATE BETWEEN ('80-07-31') AND ('80-09-01');
 -- 19. List the emps Who Annual sal ranging from 22000 and 45000.
 SELECT *,(SAL*12) AS Annsal FROM EMP WHERE (SAL*12) BETWEEN 22000 AND 45000;
 -- 20. List the Enames those are having five characters in their Names.
+SELECT ENAME FROM EMP WHERE LENGTH(ENAME) = 5;
