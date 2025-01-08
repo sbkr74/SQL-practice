@@ -39,25 +39,26 @@ SELECT * FROM EMP WHERE DEPTNO NOT LIKE '20';
 SELECT * FROM EMP WHERE JOB NOT IN ('PRESIDENT','MANAGER');
 /*      or          */
 SELECT * FROM EMP WHERE JOB NOT LIKE 'PRESIDENT' AND JOB NOT LIKE 'MANAGER';
-
-
+/*      or          */
+SELECT * FROM EMP WHERE JOB <> 'PRESIDENT' AND JOB != 'MANAGER';
 -------------------------------------------------------------------------------
 -- 31. List all the emps who joined before or after 1981.
-
--- 32. List the emps whose Empno not starting with digit78.
-
+SELECT * FROM EMP WHERE YEAR(HIREDATE) != 1981
+-- 32. List the emps whose Empno not starting with digit 78.
+SELECT * FROM EMP WHERE EMPNO NOT LIKE '78%';
 -- 33. List the emps who are working under ‘MGR’.
-
+SELECT * FROM EMP WHERE EMPNO != (SELECT MGR FROM EMP);
 -- 34. List the emps who joined in any year but not belongs to the month of March.
-
+SELECT * FROM EMP WHERE MONTH(HIREDATE) != 03;
 -- 35. List all the Clerks of Deptno 20.
-
+SELECT * FROM EMP WHERE JOB = 'CLERKS' AND DEPTNO = 20;
 -- 36. List the emps of Deptno 30 or 10 joined in the year 1981.
-
+SELECT * FROM EMP WHERE YEAR(HIREDATE) = 1981 AND (DEPTNO = 30 OR DEPTNO = 10);
 -- 37. Display the details of SMITH.
-
+SELECT * FROM EMP WHERE ENAME = 'SMITH';
 -- 38. Display the location of SMITH.
-
--- 39. List the total information of EMP table along with DNAME and Loc ofall the emps Working Under ‘ACCOUNTING’ & ‘RESEARCH’ in the asc Deptno.
-
--- 40. List the Empno, Ename, Sal, Dname of all the ‘MGRS’ and ‘ANALYST’ working in New York, Dallas with an exp more than 7 years without receiving the Comm asc order of Loc.
+SELECT LOC FROM DEPT AS d INNER JOIN EMP AS e ON d.DEPTNO=e.DEPTNO WHERE ENAME 'SMITH'; 
+-- 39. List the total information of EMP table along with DNAME and Loc ofall the emps Working Under 'ACCOUNTING' & 'RESEARCH' in the asc Deptno.
+SELECT e.*,d.DNAME,d.LOC FROM EMP e INNER JOIN DEPT d ON d.DEPTNO=e.DEPTNO WHERE d.DNAME = 'ACCOUNTING' OR d.DNAME = 'RESEARCH';
+-- 40. List the Empno, Ename, Sal, Dname of all the 'MGRS' and 'ANALYST working in New York, Dallas with an exp more than 7 years without receiving the Comm asc order of Loc.
+SELECT e.EMPNO,e.ENAME,e.SAL,d.DNAME FROM EMP e INNER JOIN DEPT d ON e.DEPTNO = d.DEPTNO WHERE e.JOB IN ('ANALYST','MANAGER') AND d.LOC IN ('RANCHI','CHAIBASA') AND (YEAR(CURRENT_DATE())-YEAR(e.HIREDATE))>7 AND e.COMM = 0 ORDER BY d.LOC;
