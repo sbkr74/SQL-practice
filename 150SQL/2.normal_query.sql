@@ -39,3 +39,25 @@ SELECT * FROM EMP WHERE DEPTNO NOT LIKE '20';
 SELECT * FROM EMP WHERE JOB NOT IN ('PRESIDENT','MANAGER');
 /*      or          */
 SELECT * FROM EMP WHERE JOB NOT LIKE 'PRESIDENT' AND JOB NOT LIKE 'MANAGER';
+
+
+-------------------------------------------------------------------------------
+-- 31. List all the emps who joined before or after 1981.
+
+-- 32. List the emps whose Empno not starting with digit78.
+
+-- 33. List the emps who are working under ‘MGR’.
+
+-- 34. List the emps who joined in any year but not belongs to the month of March.
+
+-- 35. List all the Clerks of Deptno 20.
+
+-- 36. List the emps of Deptno 30 or 10 joined in the year 1981.
+
+-- 37. Display the details of SMITH.
+
+-- 38. Display the location of SMITH.
+
+-- 39. List the total information of EMP table along with DNAME and Loc ofall the emps Working Under ‘ACCOUNTING’ & ‘RESEARCH’ in the asc Deptno.
+
+-- 40. List the Empno, Ename, Sal, Dname of all the ‘MGRS’ and ‘ANALYST’ working in New York, Dallas with an exp more than 7 years without receiving the Comm asc order of Loc.
