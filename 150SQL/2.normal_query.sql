@@ -43,11 +43,24 @@ SELECT * FROM EMP WHERE JOB NOT LIKE 'PRESIDENT' AND JOB NOT LIKE 'MANAGER';
 SELECT * FROM EMP WHERE JOB <> 'PRESIDENT' AND JOB != 'MANAGER';
 -------------------------------------------------------------------------------
 -- 31. List all the emps who joined before or after 1981.
-SELECT * FROM EMP WHERE YEAR(HIREDATE) != 1981
+SELECT * FROM EMP WHERE YEAR(HIREDATE) != 1981;
+/*      or          */
+SELECT * FROM EMP WHERE YEAR(HIREDATE) NOT IN(1981);
+/*      or          */
+SELECT * FROM EMP WHERE YEAR(HIREDATE) <> 1981;
+/*      or          */
+SELECT * FROM EMP WHERE YEAR(HIREDATE) NOT LIKE '1981';
+/*another approach (NOT SUPPORTED BY MySQL)*/
+SELECT * FROM EMP WHERE to_char(HIREDATE,'YYYY') != '1981';
+SELECT * FROM EMP WHERE to_char(HIREDATE,'YYYY') <> '1981';
+SELECT * FROM EMP WHERE to_char(HIREDATE,'YYYY') NOT IN ('1981');
+SELECT * FROM EMP WHERE to_char(HIREDATE,'YYYY') NOT LIKE '1981';
 -- 32. List the emps whose Empno not starting with digit 78.
 SELECT * FROM EMP WHERE EMPNO NOT LIKE '78%';
--- 33. List the emps who are working under ‘MGR’.
-SELECT * FROM EMP WHERE EMPNO != (SELECT MGR FROM EMP);
+-- 33. List the emps who are working under 'MGR'.
+SELECT CONCAT(e1.ENAME,' WORKS FOR ',e2.ENAME) AS WORKING FROM EMP e1 INNER JOIN EMP e2 ON e1.MGR = e2.EMPNO ;
+/*another approach (NOT SUPPORTED BY MySQL)*/
+SELECT e1.ENAME || 'WORKS FOR' || e2.ENAME FROM EMP, EMP e2  WHERE e1.MGR = e2.ENAME;
 -- 34. List the emps who joined in any year but not belongs to the month of March.
 SELECT * FROM EMP WHERE MONTH(HIREDATE) != 03;
 -- 35. List all the Clerks of Deptno 20.
