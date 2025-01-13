@@ -1,27 +1,86 @@
 -- 51. List the Emps who are senior to their own MGRS. (emp(Hiredate) > mgr(hiredate))
 SELECT E1.* FROM EMP E1 JOIN EMP E2 ON E1.MGR=E2.EMPNO WHERE E1.HIREDATE>E2.HIREDATE; 
-
+/*              or              */
 SELECT e1.* FROM EMP e1, EMP e2 WHERE e1.MGR=e2.EMPNO AND e1.HIREDATE>e2.HIREDATE;
 -- 52. List the Emps of Deptno 20 whose Jobs are same as Deptno10.
-SELECT DISTINCT e1.* FROM EMP e1 JOIN EMP e2 ON e1.JOB=e2.JOB WHERE e1.DEPTNO=10 AND e2.DEPTNO = 20;
-
+SELECT DISTINCT e1.* FROM EMP e1 JOIN EMP e2 ON e1.JOB=e2.JOB WHERE e1.DEPTNO=20 AND e2.DEPTNO = 10;
+/*              or              */
+select * from emp e ,dept d 
+where d.deptno = 20 
+and e.deptno = d.deptno 
+and e.job in ( 
+    select e.job 
+    from emp e,dept d 
+    where e.deptno = d.deptno 
+    and d.deptno=10
+);
 -- 53. List the Emps whose Sal is same as FORD or SMITH in desc order of Sal.
-SELECT * FROM EMP WHERE SAL IN( SELECT SAL FROM EMP WHERE ENAME IN('FORM','SNITH'));
+SELECT * FROM EMP WHERE SAL IN( SELECT SAL FROM EMP WHERE ENAME IN('FORD','SMITH')) ORDER BY SAL DESC;
 -- 54. List the emps Whose Jobs are same as MILLER or Sal is more than ALLEN.
 SELECT * FROM EMP WHERE JOB = (SELECT JOB FROM EMP WHERE ENAME = 'MILLER') OR SAL > (SELECT SAL FROM EMP WHERE ENAME = 'ALLEN');
 -- 55. List the Emps whose Sal is > the total remuneration of the SALESMAN.
-SELECT * FROM EMP WHERE SAL > (SELECT SUM(SAL) FROM EMP WHERE JOB = 'SALESMAN');
+SELECT * FROM EMP WHERE SAL > (SELECT SUM(SAL+COMM) FROM EMP WHERE JOB = 'SALESMAN');
+/*              or              */
+SELECT * 
+FROM EMP 
+WHERE SAL > (
+    SELECT SUM(IF(COMM IS NOT NULL, SAL + COMM, SAL)) 
+    FROM EMP 
+    WHERE JOB = 'SALESMAN'
+);
+/*              or              */
+SELECT * 
+FROM EMP 
+WHERE SAL > (
+    SELECT SUM(CASE 
+                 WHEN COMM IS NOT NULL THEN SAL + COMM 
+                 ELSE SAL 
+               END) 
+    FROM EMP 
+    WHERE JOB = 'SALESMAN'
+);
+/*              ORACLE SYNTAX              */
+select * from EMP 
+where sal >(
+    select sum(nvl2(comm,sal+comm,sal)) 
+    from EMP 
+    where job = 'SALESMAN');
 -- 56. List the emps who are senior to BLAKE working at CHICAGO & BOSTON.
-SELECT * FROM EMP,DEPT WHERE HIREDATE > (SELECT HIREDATE FROM EMP WHERE ENAME = 'BLAKE') AND LOC IN ('CHICAGO','BOSTON');
+SELECT * FROM EMP E,DEPT D WHERE E.DEPTNO = D.DEPTNO AND HIREDATE > (SELECT HIREDATE FROM EMP WHERE ENAME = 'BLAKE') AND LOC IN ('CHICAGO','BOSTON');
 /* 57. List the Emps of Grade 3,4 belongs to the dept ACCOUNTING and
 RESEARCH whose Sal is more than ALLEN and exp more than SMITH in the
 asc order of EXP. */
-SELECT * FROM EMP E, SALGRADE S 
-WHERE S.GRADE IN (3,4)
-AND E.DNAME IN ('ACCOUNTING','RESEARCH')
+SELECT *,(CURRENT_DATE()-E.HIREDATE) AS EXP FROM EMP E, SALGRADE S , DEPT D
+WHERE E.DEPTNO = D.DEPTNO 
+AND E.SAL<S.HIGHSAL AND E.SAL>S.LOWSAL
+AND S.GRADE IN (3,4)
+AND D.DNAME IN ('ACCOUNTING','RESEARCH')
 AND E.SAL > (SELECT SAL FROM EMP WHERE ENAME = 'ALLEN')
-AND (CURRENT_DATE()-E.HIREDATE AS EXP)> (SELECT CURRENT_DATE()-HIREDATE AS EXP FROM EMP WHERE ENAME = 'SMITH')
-ORDER BY EXP ASC; 
+AND (CURRENT_DATE()-E.HIREDATE)> (SELECT CURRENT_DATE()-HIREDATE AS EXP FROM EMP WHERE ENAME = 'SMITH')
+ORDER BY EXP; 
+/*              or              */
+SELECT E.*, D.DNAME, S.GRADE, 
+       DATEDIFF(CURRENT_DATE(), E.HIREDATE) AS EXP
+FROM EMP E
+JOIN DEPT D ON E.DEPTNO = D.DEPTNO
+JOIN SALGRADE S ON E.SAL BETWEEN S.LOWSAL AND S.HIGHSAL
+WHERE S.GRADE IN (3, 4)
+  AND D.DNAME IN ('ACCOUNTING', 'RESEARCH')
+  AND E.SAL > (SELECT SAL FROM EMP WHERE ENAME = 'ALLEN')
+  AND DATEDIFF(CURRENT_DATE(), E.HIREDATE) > (
+      SELECT DATEDIFF(CURRENT_DATE(), HIREDATE) 
+      FROM EMP 
+      WHERE ENAME = 'SMITH'
+  )
+ORDER BY EXP;
+/*              or              */
+select * from EMP e where e.deptno in (select d.deptno from DEPT d where
+d.dname IN ('ACCOUNTING','RESEARCH') ) and
+e.sal >(select sal from EMP where ename = 'ALLEN') and
+e.hiredate <( select hiredate from EMP where ename = 'SMITH') and
+e.empno in (select e.empno from EMP e ,SALGRADE s where e.sal between s.lowsal
+and s.highsal and s.grade in (3,4) )
+order by e.hiredate DESC;
 -- 58. List the emps whose jobs same as SMITH or ALLEN.
 SELECT * FROM EMP WHERE JOB IN (SELECT JOB FROM EMP WHERE ENAME IN ('SMITH','ALLEN'));
 /* 59. Write a Query to display the details of emps whose Sal is same as of
