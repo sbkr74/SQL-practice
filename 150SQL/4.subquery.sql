@@ -90,5 +90,25 @@ c) The sal of any person with exp of 5 years belongs to the sales dept of emp3 t
 d) Any grade 2 employee of emp4 table.
 e) Any grade 2 and 3 employee working fro sales dept or operations dept joined in 89. */
 
+-- Employee Sal of EMP1 table.
+SELECT * FROM EMP WHERE SAL IN(SELECT SAL FROM EMP GROUP BY SAL HAVING COUNT(SAL)>1);
+SELECT DISTINCT E1.* 
+FROM EMP E1
+JOIN EMP E2 
+  ON E1.SAL = E2.SAL 
+  AND E1.EMPNO <> E2.EMPNO;
+
+-- ¾ Sal of any Mgr of EMP2 table.
+SELECT * FROM EMP WHERE SAL IN (SELECT ROUND(3*(SAL)/4,-2) AS SAL FROM EMP WHERE JOB = 'MANAGER');
+SELECT * FROM EMP WHERE SAL IN (SELECT DISTINCT ROUND(3*(E1.SAL)/4,-2) AS nSAL FROM EMP E1,EMP E2 WHERE E1.EMPNO=E2.MGR);
+
+-- The sal of any person with exp of 5 years belongs to the sales dept of emp3 table.
+SELECT *,YEAR(CURRENT_DATE())-YEAR(HIREDATE) AS EXP FROM EMP WHERE SAL IN (SELECT E.SAL FROM EMP E,DEPT D WHERE E.DEPTNO=D.DEPTNO AND YEAR(CURRENT_DATE())-YEAR(HIREDATE) > 5 AND D.DNAME='SALES');
+
+-- Any grade 2 employee of emp4 table.
+SELECT * FROM EMP WHERE SAL IN (SELECT E.SAL FROM EMP E,SALGRADE S WHERE E.SAL BETWEEN S.LOWSAL AND S.HIGHSAL AND S.GRADE =2);
+
+-- Any grade 2 and 3 employee working for sales dept or operations dept joined in 89.
+SELECT * FROM EMP WHERE SAL IN (SELECT E.SAL FROM EMP E,SALGRADE S,DEPT D WHERE E.SAL BETWEEN S.LOWSAL AND S.HIGHSAL AND E.DEPTNO=D.DEPTNO AND GRADE IN(2,3) AND YEAR(E.HIREDATE)=1989 AND D.DNAME IN('OPERATION','SALES'));
 -- 60. Any jobs of deptno 10 those that are not found in deptno 20.
 SELECT JOB FROM EMP WHERE DEPTNO = 10 AND JOB NOT IN (SELECT JOB FROM EMP WHERE DEPTNO = 20);
