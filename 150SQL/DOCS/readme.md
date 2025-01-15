@@ -26,6 +26,15 @@
 |----------|---------|
 ```
 
+### Salgrade Table 
+```
+|----------|---------|
+| GRADE    |   INT   | 
+| LOWSAL   |   INT   | 
+| HIGHSAL  |   INT   | 
+|----------|---------|
+```
+
 - Topics
     - Normal Queries (1-10)
 
